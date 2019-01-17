@@ -7,7 +7,6 @@ import java.util.List;
  * 面部关键点特征对象
  */
 public class FaceV3DetectBean {
-
     private int error_code;
     private String error_msg;
     private long log_id;
