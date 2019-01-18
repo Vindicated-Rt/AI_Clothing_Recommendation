@@ -6,21 +6,31 @@ import android.view.TextureView;
 import android.view.View;
 
 /**
- * 自定义UI类
- * 自动对焦类
+ * UI类
+ * 自动对焦TextureView类
  */
 public class AutoFitTextureView extends TextureView {
     private int mRatioWidth = 0;
     private int mRatioHeight = 0;
 
+    /**
+     * 构造方法
+     * @param context
+     * @param attrs View声明的所有的属性
+     */
     public AutoFitTextureView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
+    /**
+     * 设置宽高比方法
+     * @param width
+     * @param height
+     */
     public void setAspectRatio(int width, int height) {
         mRatioWidth = width;
         mRatioHeight = height;
-        requestLayout();
+        requestLayout();//在view发生移动时,重新进行一次测量、布局、绘制
     }
 
     @Override
