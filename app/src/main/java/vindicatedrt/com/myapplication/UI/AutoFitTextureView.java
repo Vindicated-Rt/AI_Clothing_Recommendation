@@ -16,7 +16,7 @@ public class AutoFitTextureView extends TextureView {
     /**
      * 构造方法
      * @param context
-     * @param attrs View声明的所有的属性
+     * @param attrs 当前View声明的所有的属性
      */
     public AutoFitTextureView(Context context, AttributeSet attrs) {
         super(context, attrs);
