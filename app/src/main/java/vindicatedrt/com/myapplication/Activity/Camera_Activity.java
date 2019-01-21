@@ -2,12 +2,12 @@ package vindicatedrt.com.myapplication.Activity;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +27,6 @@ import java.io.IOException;
 import vindicatedrt.com.myapplication.R;
 import vindicatedrt.com.myapplication.UI.AutoFitTextureView;
 import vindicatedrt.com.myapplication.presenter.CameraPresenterComply;
-import vindicatedrt.com.myapplication.util.FileUtil;
 import vindicatedrt.com.myapplication.view.CameraView;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -49,6 +48,8 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
+        ActivityCompat.requestPermissions(Camera_Activity.this,
+                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         setContentView(R.layout.camera_layout);
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == 1) {
