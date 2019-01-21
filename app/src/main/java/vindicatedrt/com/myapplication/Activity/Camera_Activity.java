@@ -1,6 +1,8 @@
 package vindicatedrt.com.myapplication.Activity;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
@@ -59,13 +61,13 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
 
     //初始化视图
     private void initView() {
-        close_btn = (ImageButton) findViewById(R.id.camera_close_btn);
-        take_btn = (ImageButton) findViewById(R.id.camera_take_btn);
-        save_btn = (ImageButton) findViewById(R.id.camera_save_btn);
-        camera_View = (AutoFitTextureView) findViewById(R.id.camera_View);
-        preview_iv = (ImageView) findViewById(R.id.camera_preview_iv);
-        remind_tv = (TextView) findViewById(R.id.camera_remind_tv);
-        cameraPresenterComply = new CameraPresenterComply(this,camera_View,this,preview_iv);
+        close_btn = findViewById(R.id.camera_close_btn);
+        take_btn = findViewById(R.id.camera_take_btn);
+        save_btn = findViewById(R.id.camera_save_btn);
+        camera_View = findViewById(R.id.camera_View);
+        preview_iv = findViewById(R.id.camera_preview_iv);
+        remind_tv = findViewById(R.id.camera_remind_tv);
+        cameraPresenterComply = new CameraPresenterComply(this, camera_View, this, preview_iv);
         camera_View.setSurfaceTextureListener(cameraPresenterComply.getmSurfaceTextureListener());
         close_btn.setOnClickListener(this);
         take_btn.setOnClickListener(this);
@@ -100,10 +102,8 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
 
     @Override
     public void saveImg() {
-        preview_iv.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(preview_iv.getDrawingCache());
-        preview_iv.setDrawingCacheEnabled(false);
-        File imgFile = new File(getExternalFilesDir(null) , cameraPresenterComply.getTime() + ".jpg");
+        Bitmap bitmap = preview_iv.getDrawingCache();
+        File imgFile = new File(getExternalFilesDir(null), cameraPresenterComply.getTime() + ".jpg");
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(imgFile));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
