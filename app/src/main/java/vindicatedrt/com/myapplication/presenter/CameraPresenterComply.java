@@ -3,6 +3,7 @@ package vindicatedrt.com.myapplication.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -24,7 +25,9 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,6 +40,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import vindicatedrt.com.myapplication.UI.AutoFitTextureView;
+import vindicatedrt.com.myapplication.util.FileUtil;
 import vindicatedrt.com.myapplication.view.CameraView;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -47,12 +51,14 @@ public class CameraPresenterComply implements CameraPresenter {
     private Context mContext;
     private CameraView mCameraView;
     private AutoFitTextureView autoFitTextureView;
+    private ImageView show_iv;
 
-    public CameraPresenterComply(Context context,AutoFitTextureView autoFitTextureView,CameraView mCameraView) {
+    public CameraPresenterComply(Context context,AutoFitTextureView autoFitTextureView,
+                                 CameraView mCameraView,ImageView show_iv) {
         this.mContext = context;
         this.autoFitTextureView = autoFitTextureView;
         this.mCameraView = mCameraView;
-
+        this.show_iv = show_iv;
     }
 
     // 屏幕旋转集合对
@@ -222,10 +228,13 @@ public class CameraPresenterComply implements CameraPresenter {
                             byte[] bytes = new byte[buffer.remaining()];
                             // 使用IO流将照片写入指定文件
                             File file = new File(mContext.getExternalCacheDir(), getTime() + ".jpg");
+                            String filePath = file.getPath();
                             buffer.get(bytes);
                             try (FileOutputStream output = new FileOutputStream(file)) {
                                 output.write(bytes);
                                 mCameraView.showMessage("保存: " + file);
+                                Bitmap bitmap = FileUtil.getBitmapByFileDescriptor(filePath,1024,1024);
+                                show_iv.setImageBitmap(bitmap);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             } finally {
