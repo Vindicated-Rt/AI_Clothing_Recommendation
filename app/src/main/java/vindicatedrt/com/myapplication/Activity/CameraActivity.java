@@ -30,7 +30,7 @@ import vindicatedrt.com.myapplication.presenter.CameraPresenterComply;
 import vindicatedrt.com.myapplication.view.CameraView;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class Camera_Activity extends AppCompatActivity implements CameraView, View.OnClickListener {
+public class CameraActivity extends AppCompatActivity implements CameraView, View.OnClickListener {
 
     private static final String TAG = "TAG";
 
@@ -48,8 +48,6 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
-        ActivityCompat.requestPermissions(Camera_Activity.this,
-                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         setContentView(R.layout.camera_layout);
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == 1) {

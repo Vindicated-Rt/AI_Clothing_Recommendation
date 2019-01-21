@@ -1,7 +1,9 @@
 package vindicatedrt.com.myapplication.presenter;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
@@ -20,6 +22,7 @@ import android.media.ImageReader;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -53,8 +56,8 @@ public class CameraPresenterComply implements CameraPresenter {
     private AutoFitTextureView autoFitTextureView;
     private ImageView show_iv;
 
-    public CameraPresenterComply(Context context,AutoFitTextureView autoFitTextureView,
-                                 CameraView mCameraView,ImageView show_iv) {
+    public CameraPresenterComply(Context context, AutoFitTextureView autoFitTextureView,
+                                 CameraView mCameraView, ImageView show_iv) {
         this.mContext = context;
         this.autoFitTextureView = autoFitTextureView;
         this.mCameraView = mCameraView;
@@ -186,13 +189,15 @@ public class CameraPresenterComply implements CameraPresenter {
     }
 
     // 打开摄像头
-    @SuppressLint("MissingPermission")
     private void openCamera(int width, int height) {
         setUpCameraOutputs(width, height);
         CameraManager manager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
         try {
             // 打开摄像头
             assert manager != null;
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
             manager.openCamera(cameraId, stateCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
