@@ -1,5 +1,11 @@
 package vindicatedrt.com.myapplication.Activity;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,15 +17,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import vindicatedrt.com.myapplication.R;
 import vindicatedrt.com.myapplication.UI.AutoFitTextureView;
+import vindicatedrt.com.myapplication.presenter.CameraPresenterComply;
+import vindicatedrt.com.myapplication.util.FileUtil;
 import vindicatedrt.com.myapplication.view.CameraView;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class Camera_Activity extends AppCompatActivity implements CameraView, View.OnClickListener {
 
     private static final String TAG = "TAG";
-
-    private String filePath;
 
     private ImageButton close_btn;
     private ImageButton take_btn;
@@ -29,6 +41,7 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
     private ImageView preview_iv;
     private TextView remind_tv;
 
+    private CameraPresenterComply cameraPresenterComply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,7 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
         }
     }
 
+    //初始化视图
     private void initView() {
         close_btn = (ImageButton) findViewById(R.id.camera_close_btn);
         take_btn = (ImageButton) findViewById(R.id.camera_take_btn);
@@ -51,7 +65,8 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
         camera_View = (AutoFitTextureView) findViewById(R.id.camera_View);
         preview_iv = (ImageView) findViewById(R.id.camera_preview_iv);
         remind_tv = (TextView) findViewById(R.id.camera_remind_tv);
-
+        cameraPresenterComply = new CameraPresenterComply(this);
+        camera_View.setSurfaceTextureListener(cameraPresenterComply.getmSurfaceTextureListener());
         close_btn.setOnClickListener(this);
         take_btn.setOnClickListener(this);
         save_btn.setOnClickListener(this);
@@ -84,6 +99,23 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
     }
 
     @Override
+    public void saveImg() {
+        preview_iv.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(preview_iv.getDrawingCache());
+        preview_iv.setDrawingCacheEnabled(false);
+        File imgFile = new File(getExternalFilesDir(null) , cameraPresenterComply.getTime() + ".jpg");
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(imgFile));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            showMessage("保存: " + imgFile);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.camera_close_btn:
@@ -96,6 +128,12 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
                 });
                 break;
             case R.id.camera_take_btn:
+                cameraPresenterComply.captureStillPicture(getWindowManager());
+                File dir = new File(String.valueOf(getExternalCacheDir()));
+                File[] files = dir.listFiles();
+                String filePath = files[0].getPath();
+                Bitmap bitmap = FileUtil.getBitmapByFileDescriptor(filePath,1024,1024);
+                preview_iv.setImageBitmap(bitmap);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -105,6 +143,7 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
                 });
                 break;
             case R.id.camera_save_btn:
+                saveImg();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -115,6 +154,42 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
                 break;
             default:
                 break;
+        }
+    }
+
+    // 判断是否支持Camera2方法
+    public static boolean hasCamera2(Context mContext) {
+        if (mContext == null) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return false;
+        }
+        try {
+            CameraManager manager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
+            assert manager != null;
+            String[] idList = manager.getCameraIdList();
+            boolean notFull = true;
+            if (idList.length == 0) {
+                notFull = false;
+            } else {
+                for (final String str : idList) {
+                    if (str == null || str.trim().isEmpty()) {
+                        notFull = false;
+                        break;
+                    }
+                    final CameraCharacteristics characteristics = manager.getCameraCharacteristics(str);
+
+                    final int supportLevel = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+                    if (supportLevel == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
+                        notFull = false;
+                        break;
+                    }
+                }
+            }
+            return notFull;
+        } catch (Throwable ignore) {
+            return false;
         }
     }
 }

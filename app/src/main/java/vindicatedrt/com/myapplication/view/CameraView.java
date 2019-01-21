@@ -10,4 +10,6 @@ public interface CameraView {
     void setViewINVISIBLE(View... viewINVISIBLE);
 
     void setViewVISIBLE(View... viewVISIBLE);
+
+    void saveImg();
 }

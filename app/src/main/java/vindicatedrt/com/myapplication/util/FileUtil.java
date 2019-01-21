@@ -1,5 +1,8 @@
 package vindicatedrt.com.myapplication.util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import java.io.*;
 
 /**
@@ -26,5 +29,28 @@ public class FileUtil {
                 return bos.toByteArray();
             }
         }
+    }
+    public static Bitmap getBitmapByFileDescriptor(String filePath, int width, int height) {
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFileDescriptor(fis.getFD(), null, options);
+            float srcWidth = options.outWidth;
+            float srcHeight = options.outHeight;
+            int inSampleSize = 1;
+            if (srcHeight > height || srcWidth > width) {
+                if (srcWidth > srcHeight) {
+                    inSampleSize = Math.round(srcHeight / height);//四舍五入
+                } else {
+                    inSampleSize = Math.round(srcWidth / width);
+                }
+            }
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = inSampleSize;
+            return BitmapFactory.decodeFileDescriptor(fis.getFD(), null, options);
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 }
