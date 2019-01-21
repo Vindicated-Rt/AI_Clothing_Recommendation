@@ -1,10 +1,8 @@
 package vindicatedrt.com.myapplication.presenter;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -26,7 +24,6 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.View;
 import android.view.WindowManager;
 
 import java.io.File;
@@ -49,9 +46,13 @@ public class CameraPresenterComply implements CameraPresenter {
 
     private Context mContext;
     private CameraView mCameraView;
+    private AutoFitTextureView autoFitTextureView;
 
-    public CameraPresenterComply(Context context) {
+    public CameraPresenterComply(Context context,AutoFitTextureView autoFitTextureView,CameraView mCameraView) {
         this.mContext = context;
+        this.autoFitTextureView = autoFitTextureView;
+        this.mCameraView = mCameraView;
+
     }
 
     // 屏幕旋转集合对
@@ -68,8 +69,7 @@ public class CameraPresenterComply implements CameraPresenter {
 
     // 预览尺寸
     private Size previewSize;
-    // 自定义相机View
-    private AutoFitTextureView cameraView;
+
     // 图片访问者
     private ImageReader imageReader;
 
@@ -79,10 +79,6 @@ public class CameraPresenterComply implements CameraPresenter {
     private CaptureRequest.Builder previewRequestBuilder;
     private CaptureRequest previewRequest;
     private CameraCaptureSession mCameraCaptureSession;
-
-    private void openCamera(Context context) {
-
-    }
 
     // 预览视图监听
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener
@@ -135,7 +131,7 @@ public class CameraPresenterComply implements CameraPresenter {
     // 创建拍照预览Session
     private void createCameraPreviewSession() {
         try {
-            SurfaceTexture texture = cameraView.getSurfaceTexture();
+            SurfaceTexture texture = autoFitTextureView.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             Surface surface = new Surface(texture);
             // 创建作为预览的CaptureRequest.Builder
@@ -244,10 +240,10 @@ public class CameraPresenterComply implements CameraPresenter {
             // 根据选中的预览尺寸来调整预览组件（TextureView的）的长宽比
             int orientation = mContext.getResources().getConfiguration().orientation;
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                cameraView.setAspectRatio(
+                autoFitTextureView.setAspectRatio(
                         previewSize.getWidth(), previewSize.getHeight());
             } else {
-                cameraView.setAspectRatio(
+                autoFitTextureView.setAspectRatio(
                         previewSize.getHeight(), previewSize.getWidth());
             }
         } catch (CameraAccessException e) {

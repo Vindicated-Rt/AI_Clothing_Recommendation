@@ -65,7 +65,7 @@ public class Camera_Activity extends AppCompatActivity implements CameraView, Vi
         camera_View = (AutoFitTextureView) findViewById(R.id.camera_View);
         preview_iv = (ImageView) findViewById(R.id.camera_preview_iv);
         remind_tv = (TextView) findViewById(R.id.camera_remind_tv);
-        cameraPresenterComply = new CameraPresenterComply(this);
+        cameraPresenterComply = new CameraPresenterComply(this,camera_View,this);
         camera_View.setSurfaceTextureListener(cameraPresenterComply.getmSurfaceTextureListener());
         close_btn.setOnClickListener(this);
         take_btn.setOnClickListener(this);
