@@ -18,6 +18,7 @@ import com.baidu.aip.util.Base64Util;
 import java.net.URLEncoder;
 
 import vindicatedrt.com.myapplication.R;
+import vindicatedrt.com.myapplication.bean.BodyAnalysisBean;
 import vindicatedrt.com.myapplication.bean.FaceV3DetectBean;
 import vindicatedrt.com.myapplication.util.AuthService;
 import vindicatedrt.com.myapplication.util.FileUtil;
@@ -25,6 +26,7 @@ import vindicatedrt.com.myapplication.util.HttpUtil;
 
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener{
 
+    public static final String BODYANALYSIS_API = "https://aip.baidubce.com/rest/2.0/image-classify/v1/body_analysis";
     public static String FACE_DETECT_URL = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
     private static final String TAG = "TAG";
 
@@ -107,5 +109,23 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 + "&image_type=BASE64&max_face_num=" + max_face_num
                 + "&face_field=gender,age,face_shape";
         return HttpUtil.post(FACE_DETECT_URL, accessToken, params);
+    }
+
+
+    /**
+     *
+     * @param imagePath 图片地址
+     * @param accessToken AccessToken
+     * @return 返回请求结果对象
+     * @throws Exception 抛出未知错误
+     */
+    public static BodyAnalysisBean getBodyAnalysisBean(String imagePath, String accessToken) throws Exception {
+        byte[] imgData = FileUtil.readFileByBytes(imagePath);
+        String imgStr = Base64Util.encode(imgData);
+        String param = "image=" + URLEncoder.encode(imgStr, "UTF-8");
+        String result = HttpUtil.post(BODYANALYSIS_API, accessToken, param);
+        BodyAnalysisBean bodyAnalysisBean = JSON.parseObject(result, BodyAnalysisBean.class);
+        Log.i(TAG, result);
+        return bodyAnalysisBean;
     }
 }
