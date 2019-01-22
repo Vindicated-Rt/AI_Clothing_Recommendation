@@ -14,9 +14,10 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_layout);
         ActivityCompat.requestPermissions(SplashActivity.this,
                 new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        setContentView(R.layout.splash_layout);
+
     }
 
     public void openCamera(View view) {

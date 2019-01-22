@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="camera_remind_tv_text">请与30cm外进行拍摄全身</string>
-    <string name="land_rmind_text">请翻转手机,竖立拍照</string>
+    <string name="camera_remind_tv_text">请距30cm进行全身拍摄</string>
+    <string name="land_remind_text">请翻转手机,竖立拍照</string>
+    <string name="list_item_title_text">标题</string>
+    <string name="list_item_info_text">内容</string>
+    <string name="info_gender_tv_text">性别</string>
+    <string name="info_faceShape_tv_text">脸型</string>
+    <string name="info_age_tv_text">年龄</string>
 </resources>

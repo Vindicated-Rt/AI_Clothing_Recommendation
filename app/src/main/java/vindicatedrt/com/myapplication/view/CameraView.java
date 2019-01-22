@@ -1,5 +1,6 @@
 package vindicatedrt.com.myapplication.view;
 
+import android.graphics.Bitmap;
 import android.view.View;
 
 public interface CameraView {
@@ -11,5 +12,5 @@ public interface CameraView {
 
     void setViewVISIBLE(View... viewVISIBLE);
 
-    void saveImg();
+    String saveImg();
 }

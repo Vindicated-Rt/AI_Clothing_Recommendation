@@ -1,6 +1,7 @@
 package vindicatedrt.com.myapplication.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
@@ -98,7 +99,7 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
     }
 
     @Override
-    public void saveImg() {
+    public String saveImg() {
         preview_iv.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         preview_iv.layout(0, 0, preview_iv.getMeasuredWidth(), preview_iv.getMeasuredHeight());
@@ -114,6 +115,7 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return imgFile.getPath();
     }
 
     @Override
@@ -139,7 +141,10 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
                 });
                 break;
             case R.id.camera_save_btn:
-                saveImg();
+                String imgPath = saveImg();
+                Intent intent = new Intent(CameraActivity.this,InfoActivity.class);
+                intent.putExtra("imgPath",imgPath);
+                startActivity(intent);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
