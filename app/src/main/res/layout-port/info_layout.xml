@@ -54,8 +54,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info_faceShape_tv" />
 
+    <TextView
+        android:id="@+id/info_height_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/info_height_tv_text"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_age_tv" />
+
+    <TextView
+        android:id="@+id/info_width_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/info_width_tv"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_height_tv" />
+
     <EditText
-        android:enabled="false"
         android:id="@+id/info_gender_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,6 +86,7 @@
         android:layout_marginEnd="16dp"
         android:autofillHints="textPassword"
         android:cursorVisible="false"
+        android:enabled="false"
         android:focusable="false"
         android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="@+id/info_gender_tv"
@@ -73,13 +97,16 @@
         tools:targetApi="o" />
 
     <EditText
-        android:enabled="false"
         android:id="@+id/info_faceShape_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:autofillHints="textPassword"
+        android:cursorVisible="false"
+        android:enabled="false"
+        android:focusable="false"
+        android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="@+id/info_faceShape_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/info_faceShape_tv"
@@ -88,13 +115,16 @@
         tools:targetApi="o" />
 
     <EditText
-        android:enabled="false"
         android:id="@+id/info_age_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:autofillHints="textPassword"
+        android:cursorVisible="false"
+        android:enabled="false"
+        android:focusable="false"
+        android:textIsSelectable="false"
         app:layout_constraintBottom_toBottomOf="@+id/info_age_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/info_age_tv"
@@ -102,13 +132,49 @@
         tools:ignore="LabelFor,TextFields"
         tools:targetApi="o" />
 
+    <EditText
+        android:id="@+id/info_height_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:autofillHints="textPassword"
+        android:cursorVisible="false"
+        android:enabled="false"
+        android:focusable="false"
+        android:textIsSelectable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/info_height_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/info_height_tv"
+        app:layout_constraintTop_toTopOf="@+id/info_height_tv"
+        tools:ignore="LabelFor,TextFields"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/info_width_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:autofillHints="textPassword"
+        android:cursorVisible="false"
+        android:enabled="false"
+        android:focusable="false"
+        android:textIsSelectable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/info_width_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/info_width_tv"
+        app:layout_constraintTop_toTopOf="@+id/info_width_tv"
+        tools:ignore="LabelFor,TextFields"
+        tools:targetApi="o" />
+
     <ImageButton
         android:id="@+id/info_post_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@mipmap/post_btn_src"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
