@@ -311,6 +311,11 @@ public class FaceV3DetectBean {
     }
 
     public static class Face_shape {
+        private final static String type_square = "方形";
+        private final static String type_triangle = "三角形";
+        private final static String type_oval = "椭圆形";
+        private final static String type_heart = "心形";
+        private final static String type_round= "圆形";
         private String type;
         private double probability;
 
@@ -319,7 +324,17 @@ public class FaceV3DetectBean {
         }
 
         public String getType() {
-            return type;
+            if(type.equals("square")){
+                return type_square;
+            }else if(type.equals("oval")){
+                return type_triangle;
+            }else if (type.equals("oval")){
+                return type_oval;
+            }else if(type.equals("heart")){
+                return type_heart;
+            }else {
+                return type_round;
+            }
         }
 
         public void setProbability(double probability) {
