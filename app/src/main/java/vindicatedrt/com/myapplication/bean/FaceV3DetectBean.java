@@ -303,6 +303,8 @@ public class FaceV3DetectBean {
     }
 
     public static class Gender {
+        private static final String type_male = "男";
+        private static final String type_female = "女";
         private String type;
         private double probability;
 
@@ -311,7 +313,11 @@ public class FaceV3DetectBean {
         }
 
         public String getType() {
-            return type;
+            if(type.equals("male")){
+                return type_male;
+            }else {
+                return type_female;
+            }
         }
 
         public void setProbability(double probability) {
