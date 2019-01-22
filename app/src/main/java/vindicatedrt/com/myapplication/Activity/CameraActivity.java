@@ -1,13 +1,11 @@
 package vindicatedrt.com.myapplication.Activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,7 +65,7 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
         preview_iv = findViewById(R.id.camera_preview_iv);
         remind_tv = findViewById(R.id.camera_remind_tv);
         cameraPresenterComply = new CameraPresenterComply(this, camera_View, this, preview_iv);
-        camera_View.setSurfaceTextureListener(cameraPresenterComply.getmSurfaceTextureListener());
+        camera_View.setSurfaceTextureListener(cameraPresenterComply.getSurfaceTextureListener());
         close_btn.setOnClickListener(this);
         take_btn.setOnClickListener(this);
         save_btn.setOnClickListener(this);
@@ -101,6 +99,9 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
 
     @Override
     public void saveImg() {
+        preview_iv.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        preview_iv.layout(0, 0, preview_iv.getMeasuredWidth(), preview_iv.getMeasuredHeight());
+        preview_iv.buildDrawingCache();
         Bitmap bitmap = preview_iv.getDrawingCache();
         File imgFile = new File(getExternalFilesDir(null), cameraPresenterComply.getTime() + ".jpg");
         try {

@@ -28,7 +28,6 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -270,7 +269,7 @@ public class CameraPresenterComply implements CameraPresenter {
     /*---------------------------------------Activity获取内容---------------------------------------*/
 
     // SurfaceTextureListener的get方法
-    public TextureView.SurfaceTextureListener getmSurfaceTextureListener() {
+    public TextureView.SurfaceTextureListener getSurfaceTextureListener() {
         return mSurfaceTextureListener;
     }
 
