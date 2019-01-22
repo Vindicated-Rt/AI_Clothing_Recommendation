@@ -25,7 +25,6 @@ import vindicatedrt.com.myapplication.util.HttpUtil;
 
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private final String path = getIntent().getStringExtra("imgPath");
     public static String FACE_DETECT_URL = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
     private static final String TAG = "TAG";
 
@@ -44,6 +43,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                final String path = getIntent().getStringExtra("imgPath");
                 Bitmap bitmap = FileUtil.getBitmapByFileDescriptor(path,1024,1024);
                 info_iv.setImageBitmap(bitmap);
             }
@@ -65,6 +65,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 super.run();
                 try {
+                    final String path = getIntent().getStringExtra("imgPath");
                     final String AccessToken = AuthService.getAuth();
                     String result = faceDetect(path, "1", AccessToken);
                     JSON json = JSON.parseObject(result);
@@ -80,7 +81,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void run() {
                                 gender_et.setText(gender);
-                                age_et.setText(age);
+                                age_et.setText(String.valueOf(age));
                                 faceShape_et.setText(type);
                             }
                         });
