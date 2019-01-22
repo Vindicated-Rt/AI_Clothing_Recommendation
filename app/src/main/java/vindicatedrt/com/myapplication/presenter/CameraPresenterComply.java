@@ -234,15 +234,20 @@ public class CameraPresenterComply implements CameraPresenter {
                             File file = new File(mContext.getExternalCacheDir(), getTime() + ".jpg");
                             String filePath = file.getPath();
                             buffer.get(bytes);
+                            Bitmap bitmap = FileUtil.getBitmapByFileDescriptor(filePath,1024,1024);
                             try (FileOutputStream output = new FileOutputStream(file)) {
                                 output.write(bytes);
                                 mCameraView.showMessage("保存: " + file);
-                                Bitmap bitmap = FileUtil.getBitmapByFileDescriptor(filePath,1024,1024);
                                 show_iv.setImageBitmap(bitmap);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             } finally {
                                 image.close();
+                                if (!bitmap.isRecycled()) {
+                                    bitmap.recycle();   //回收图片所占的内存
+                                    bitmap = null;
+                                    System.gc();  //提醒系统及时回收
+                                }
                             }
                         }
                     }, null);

@@ -149,7 +149,6 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        preview_iv.setColorFilter(R.color.black);
                         setViewINVISIBLE(save_btn, preview_iv, close_btn);
                         setViewVISIBLE(remind_tv, take_btn, camera_View);
                     }
@@ -158,6 +157,12 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        preview_iv.setImageDrawable(null);
     }
 
     // 判断是否支持Camera2方法
