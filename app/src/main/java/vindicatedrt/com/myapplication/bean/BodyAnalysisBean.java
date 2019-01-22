@@ -352,6 +352,14 @@ public class BodyAnalysisBean {
         public double getHeight() {
             return height;
         }
+
+        public String getProbablyHeight(){
+            return String.valueOf(height)+"cm";
+        }
+
+        public String getProbablyWidth(){
+            return String.valueOf(width)+"cm";
+        }
     }
 
     public static class Neck {

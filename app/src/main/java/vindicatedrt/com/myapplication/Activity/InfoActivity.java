@@ -33,6 +33,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private EditText gender_et;
     private EditText age_et;
     private EditText faceShape_et;
+    private EditText height_et;
+    private EditText width_et;
     private ImageView info_iv;
 
     @Override
@@ -55,6 +57,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         gender_et = findViewById(R.id.info_gender_et);
         age_et = findViewById(R.id.info_age_et);
         faceShape_et = findViewById(R.id.info_faceShape_et);
+        height_et = findViewById(R.id.info_height_et);
+        width_et = findViewById(R.id.info_width_et);
         ImageButton post_ib = findViewById(R.id.info_post_ib);
         info_iv = findViewById(R.id.info_iv);
         post_ib.setOnClickListener(this);
@@ -72,10 +76,13 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                     String result = faceDetect(path, "1", AccessToken);
                     JSON json = JSON.parseObject(result);
                     FaceV3DetectBean faceV3Bean = JSONObject.toJavaObject(json, FaceV3DetectBean.class);
+                    BodyAnalysisBean bodyAnalysisBean = getBodyAnalysisBean(path, AccessToken);
                     String error = faceV3Bean.getError_msg();
                     final String ageStr = faceV3Bean.getResult().getFace_list().get(0).getAgeStr();
                     final String type = faceV3Bean.getResult().getFace_list().get(0).getFace_shape().getType();
                     final String gender = faceV3Bean.getResult().getFace_list().get(0).getGender().getType();
+                    final String height = bodyAnalysisBean.getPerson_info().get(0).getLocation().getProbablyHeight();
+                    final String width = bodyAnalysisBean.getPerson_info().get(0).getLocation().getProbablyWidth();
                     if(error.equals("pic not has face")){
                         Log.i(TAG, "未识别人脸");
                     }else {
@@ -85,6 +92,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                                 gender_et.setText(gender);
                                 age_et.setText(ageStr);
                                 faceShape_et.setText(type);
+                                height_et.setText(height);
+                                width_et.setText(width);
                             }
                         });
                     }
