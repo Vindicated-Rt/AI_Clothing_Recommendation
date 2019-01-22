@@ -139,6 +139,19 @@ public class FaceV3DetectBean {
             return age;
         }
 
+        public String getAgeStr(){
+            if (age <= 15) {
+                return "少年";
+            } else if (age > 15 && age <= 29) {
+                return "青年";
+            } else if (age > 29 && age < 55) {
+                return "中年";
+            } else {
+                return "老年";
+            }
+        }
+
+
         public void setBeauty(double beauty) {
             this.beauty = beauty;
         }

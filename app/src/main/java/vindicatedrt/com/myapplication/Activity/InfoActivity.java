@@ -71,7 +71,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                     JSON json = JSON.parseObject(result);
                     FaceV3DetectBean faceV3Bean = JSONObject.toJavaObject(json, FaceV3DetectBean.class);
                     String error = faceV3Bean.getError_msg();
-                    final int age = faceV3Bean.getResult().getFace_list().get(0).getAge();
+                    final String ageStr = faceV3Bean.getResult().getFace_list().get(0).getAgeStr();
                     final String type = faceV3Bean.getResult().getFace_list().get(0).getFace_shape().getType();
                     final String gender = faceV3Bean.getResult().getFace_list().get(0).getGender().getType();
                     if(error.equals("pic not has face")){
@@ -81,7 +81,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void run() {
                                 gender_et.setText(gender);
-                                age_et.setText(String.valueOf(age));
+                                age_et.setText(ageStr);
                                 faceShape_et.setText(type);
                             }
                         });
