@@ -123,6 +123,7 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.camera_close_btn:
+                preview_iv.setImageDrawable(null);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
