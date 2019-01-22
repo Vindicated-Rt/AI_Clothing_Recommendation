@@ -55,13 +55,13 @@ public class AuthService {
             }
             // 定义 BufferedReader输入流来读取URL的响应
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String result = "";
+            StringBuilder result = new StringBuilder();
             String line;
             while ((line = in.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
             Log.e(TAG, "result:" + result);
-            JSONObject jsonObject = new JSONObject(result);
+            JSONObject jsonObject = new JSONObject(result.toString());
             return jsonObject.getString("access_token");
         } catch (Exception e) {
             Log.e(TAG, "获取token失败!");
