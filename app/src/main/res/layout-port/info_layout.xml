@@ -112,5 +112,6 @@
         android:background="@mipmap/post_btn_src"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" />
 </android.support.constraint.ConstraintLayout>

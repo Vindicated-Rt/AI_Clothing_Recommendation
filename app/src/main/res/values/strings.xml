@@ -7,4 +7,6 @@
     <string name="info_gender_tv_text">性别</string>
     <string name="info_faceShape_tv_text">脸型</string>
     <string name="info_age_tv_text">年龄</string>
+    <string name="info_height_tv_text">身高</string>
+    <string name="info_width_tv">宽度</string>
 </resources>
