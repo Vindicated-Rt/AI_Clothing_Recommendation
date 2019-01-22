@@ -99,7 +99,8 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
 
     @Override
     public void saveImg() {
-        preview_iv.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        preview_iv.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         preview_iv.layout(0, 0, preview_iv.getMeasuredWidth(), preview_iv.getMeasuredHeight());
         preview_iv.buildDrawingCache();
         Bitmap bitmap = preview_iv.getDrawingCache();
