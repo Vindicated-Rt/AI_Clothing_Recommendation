@@ -3,6 +3,7 @@ package vindicatedrt.com.myapplication.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
@@ -148,6 +149,7 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        preview_iv.setColorFilter(R.color.black);
                         setViewINVISIBLE(save_btn, preview_iv, close_btn);
                         setViewVISIBLE(remind_tv, take_btn, camera_View);
                     }
