@@ -1,7 +1,6 @@
 package vindicatedrt.com.myapplication.Activity;
 
 import android.Manifest;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,7 +9,6 @@ import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -33,7 +31,7 @@ import vindicatedrt.com.myapplication.util.HttpUtil;
 
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String taobaoPackage = "com.taobao.taobao";
+    public static final String taoBaoPackage = "com.taobao.taobao";
     public static final String BODYANALYSIS_API = "https://aip.baidubce.com/rest/2.0/image-classify/v1/body_analysis";
     public static String FACE_DETECT_URL = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
     private static final String TAG = "TAG";
@@ -117,7 +115,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 }.start();
                 break;
             case R.id.info_searchOnTaoBao_ib:
-                launchApp(taobaoPackage);
+                launchApp(taoBaoPackage);
                 break;
             default:
                 break;
@@ -165,15 +163,15 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             for (int i = 0; i < packageInfos.size(); i++) {
                 String pn = packageInfos.get(i).packageName;
                 if (pn.equals(appPackage)) {
-                    Intent intent = packageManager.getLaunchIntentForPackage(appPackage);
-                    startActivity(intent);
-                } else {
-                    Uri uri = Uri.parse("market://details?id=" + appPackage);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    Intent openTaoBao = packageManager.getLaunchIntentForPackage(appPackage);
+                    startActivity(openTaoBao);
+                    return;
                 }
             }
+            Uri uri = Uri.parse("market://details?id=" + appPackage);
+            Intent openMarket = new Intent(Intent.ACTION_VIEW, uri);
+            openMarket.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(openMarket);
         }
     }
 }
