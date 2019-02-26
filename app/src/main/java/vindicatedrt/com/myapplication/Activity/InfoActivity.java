@@ -32,7 +32,7 @@ import vindicatedrt.com.myapplication.util.HttpUtil;
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String taoBaoPackage = "com.taobao.taobao";
-    public static final String BODYANALYSIS_API = "https://aip.baidubce.com/rest/2.0/image-classify/v1/body_analysis";
+    public static final String BODY_ANALYSIS_API = "https://aip.baidubce.com/rest/2.0/image-classify/v1/body_analysis";
     public static String FACE_DETECT_URL = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
     private static final String TAG = "TAG";
 
@@ -150,7 +150,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         byte[] imgData = FileUtil.readFileByBytes(imagePath);
         String imgStr = Base64Util.encode(imgData);
         String param = "image=" + URLEncoder.encode(imgStr, "UTF-8");
-        String result = HttpUtil.post(BODYANALYSIS_API, accessToken, param);
+        String result = HttpUtil.post(BODY_ANALYSIS_API, accessToken, param);
         BodyAnalysisBean bodyAnalysisBean = JSON.parseObject(result, BodyAnalysisBean.class);
         Log.i(TAG, result);
         return bodyAnalysisBean;
