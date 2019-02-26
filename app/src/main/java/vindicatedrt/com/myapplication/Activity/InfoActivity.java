@@ -34,7 +34,6 @@ import vindicatedrt.com.myapplication.util.HttpUtil;
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String taobaoPackage = "com.taobao.taobao";
-    public static final String tiantain = "com.sds.android.ttpod";
     public static final String BODYANALYSIS_API = "https://aip.baidubce.com/rest/2.0/image-classify/v1/body_analysis";
     public static String FACE_DETECT_URL = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
     private static final String TAG = "TAG";
@@ -118,7 +117,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 }.start();
                 break;
             case R.id.info_searchOnTaoBao_ib:
-                launchApp(tiantain);
+                launchApp(taobaoPackage);
                 break;
             default:
                 break;
