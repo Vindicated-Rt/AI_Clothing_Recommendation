@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -115,7 +118,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 }.start();
                 break;
             case R.id.info_searchOnTaoBao_ib:
+                Bitmap clothBitmap = viewToBitmap(info_iv,1024,1024);
+                MediaStore.Images.Media.insertImage(getContentResolver(), clothBitmap, "title", "description");
                 launchApp(taoBaoPackage);
+                finish();
                 break;
             default:
                 break;
@@ -156,6 +162,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         return bodyAnalysisBean;
     }
 
+    /**
+     * 启动外部app 方法
+     * @param appPackage 外部app包名
+     */
     public void launchApp(String appPackage) {
         PackageManager packageManager = this.getApplicationContext().getPackageManager();
         List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
@@ -173,5 +183,24 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             openMarket.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(openMarket);
         }
+    }
+
+    /**
+     * view 转 bitmap 方法
+     * @param v 视图对象
+     * @param width 转换后的宽
+     * @param height 转换后的高
+     * @return 返回转换好的bitmap
+     */
+    public Bitmap viewToBitmap(View v, int width, int height) {
+        int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
+        v.measure(measuredWidth, measuredHeight);
+        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bitmap);
+        c.drawColor(Color.WHITE);
+        v.draw(c);
+        return bitmap;
     }
 }
