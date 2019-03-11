@@ -3,7 +3,6 @@ package vindicatedrt.com.myapplication.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
@@ -160,11 +159,6 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        preview_iv.setImageDrawable(null);
-    }
 
     // 判断是否支持Camera2方法
     public static boolean hasCamera2(Context mContext) {
