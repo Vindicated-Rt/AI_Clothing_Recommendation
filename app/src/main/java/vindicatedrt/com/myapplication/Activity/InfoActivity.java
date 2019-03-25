@@ -73,40 +73,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.info_post_ib:
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        try {
-                            final String path = getIntent().getStringExtra("imgPath");
-                            final String AccessToken = AuthService.getAuth();
-                            String result = InfoPresentComply.faceDetect(path, "1", AccessToken);
-                            JSON json = JSON.parseObject(result);
-                            FaceV3DetectBean faceV3Bean = JSONObject.toJavaObject(json, FaceV3DetectBean.class);
-                            BodyAnalysisBean bodyAnalysisBean = InfoPresentComply.getBodyAnalysisBean(path, AccessToken);
-                            mInfoPresentComply.setFaceV3Bean(faceV3Bean);
-                            mInfoPresentComply.setBodyAnalysisBean(bodyAnalysisBean);
-                            String error = faceV3Bean.getError_msg();
-                            if (error.equals(errorInfo)) {
-                                Log.i(TAG, "未识别人脸");
-                                Toast.makeText(InfoActivity.this,"未识别人脸",Toast.LENGTH_LONG).show();
-                            } else {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mInfoPresentComply.setTextStr(gender_et,mInfoPresentComply.getGender());
-                                        mInfoPresentComply.setTextStr(age_et,mInfoPresentComply.getAgeStr());
-                                        mInfoPresentComply.setTextStr(faceShape_et,mInfoPresentComply.getType());
-                                        mInfoPresentComply.setTextStr(height_et,mInfoPresentComply.getmHeight());
-                                        mInfoPresentComply.setTextStr(width_et,mInfoPresentComply.getmWidth());
-                                    }
-                                });
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+                postThread.start();
                 break;
             case R.id.info_searchOnTaoBao_ib:
                 Bitmap clothBitmap = mInfoPresentComply.viewToBitmap(info_iv,1024,1024);
@@ -119,4 +86,38 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+    private Thread postThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                final String path = getIntent().getStringExtra("imgPath");
+                final String AccessToken = AuthService.getAuth();
+                String result = InfoPresentComply.faceDetect(path, "1", AccessToken);
+                JSON json = JSON.parseObject(result);
+                FaceV3DetectBean faceV3Bean = JSONObject.toJavaObject(json, FaceV3DetectBean.class);
+                BodyAnalysisBean bodyAnalysisBean = InfoPresentComply.getBodyAnalysisBean(path, AccessToken);
+                mInfoPresentComply.setFaceV3Bean(faceV3Bean);
+                mInfoPresentComply.setBodyAnalysisBean(bodyAnalysisBean);
+                String error = faceV3Bean.getError_msg();
+                if (error.equals(errorInfo)) {
+                    Log.i(TAG, "未识别人脸");
+                    Toast.makeText(InfoActivity.this,"未识别人脸",Toast.LENGTH_LONG).show();
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mInfoPresentComply.setTextStr(gender_et,mInfoPresentComply.getGender());
+                            mInfoPresentComply.setTextStr(age_et,mInfoPresentComply.getAgeStr());
+                            mInfoPresentComply.setTextStr(faceShape_et,mInfoPresentComply.getType());
+                            mInfoPresentComply.setTextStr(height_et,mInfoPresentComply.getmHeight());
+                            mInfoPresentComply.setTextStr(width_et,mInfoPresentComply.getmWidth());
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    });
 }
