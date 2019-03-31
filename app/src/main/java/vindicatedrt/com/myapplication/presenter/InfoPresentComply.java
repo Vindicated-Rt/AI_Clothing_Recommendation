@@ -35,7 +35,7 @@ public class InfoPresentComply implements InfoPresent, InfoVIew {
 
     private Context mContext;
 
-    public InfoPresentComply(Context context){
+    public InfoPresentComply(Context context) {
         this.mContext = context;
     }
 
@@ -102,6 +102,7 @@ public class InfoPresentComply implements InfoPresent, InfoVIew {
 
     /**
      * 启动外部app 方法
+     *
      * @param appPackage 外部app包名
      */
     public void launchApp(String appPackage) {
@@ -125,8 +126,9 @@ public class InfoPresentComply implements InfoPresent, InfoVIew {
 
     /**
      * view 转 bitmap 方法
-     * @param v 视图对象
-     * @param width 转换后的宽
+     *
+     * @param v      视图对象
+     * @param width  转换后的宽
      * @param height 转换后的高
      * @return 返回转换好的bitmap
      */
@@ -146,5 +148,17 @@ public class InfoPresentComply implements InfoPresent, InfoVIew {
     @Override
     public void setTextStr(EditText editText, String text) {
         editText.setText(text);
+    }
+
+    public String postBodyInfo() throws Exception {
+        String request = getAgeStr()
+                + "，" + getGender()
+                + "，" + getType()
+                + "，" + getmHeight()
+                + "," + getmWidth();
+        String url = "http://192.168.10.166:8888/register";
+        HttpUtil.post(url, request);
+
+        return request;
     }
 }

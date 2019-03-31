@@ -149,6 +149,7 @@ public class CameraActivity extends AppCompatActivity implements CameraView, Vie
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        camera_View.invalidate();
                         setViewINVISIBLE(save_btn, preview_iv, close_btn);
                         setViewVISIBLE(remind_tv, take_btn, camera_View);
                     }

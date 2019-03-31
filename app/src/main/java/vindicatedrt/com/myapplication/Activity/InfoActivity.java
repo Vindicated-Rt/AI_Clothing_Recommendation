@@ -112,6 +112,12 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                             mInfoPresentComply.setTextStr(faceShape_et,mInfoPresentComply.getType());
                             mInfoPresentComply.setTextStr(height_et,mInfoPresentComply.getmHeight());
                             mInfoPresentComply.setTextStr(width_et,mInfoPresentComply.getmWidth());
+                            try {
+                                mInfoPresentComply.postBodyInfo();
+                            } catch (Exception e) {
+                                Log.e(TAG, "无法链接");
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
